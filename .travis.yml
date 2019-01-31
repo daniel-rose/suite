@@ -9,22 +9,14 @@ env:
 matrix:
   fast_finish: true
   include:
-#    - php: "7.1"
-#      env:
-#        - VALIDATION=1
-#    - php: "7.1"
-#      env:
-#        - TEST_GROUP=without-acceptance
-#    - php: "7.1"
-#      env:
-#        - TEST_GROUP=acceptance
     - php: "7.1"
       env:
-        - COMPOSER=prefer-lowest
+        - VALIDATION=1
+    - php: "7.1"
+      env:
         - TEST_GROUP=without-acceptance
     - php: "7.1"
       env:
-        - COMPOSER=prefer-lowest
         - TEST_GROUP=acceptance
 addons:
   postgresql: 9.6
@@ -58,8 +50,7 @@ before_install:
 
 install:
   - chmod -R a+x config/Shared/ci/travis/
-  - if [[ $COMPOSER == 'prefer-lowest' ]] ; then composer update --optimize-autoloader --no-interaction --prefer-lowest ; fi
-  - if [[ $COMPOSER != 'prefer-lowest' ]] ; then composer install --optimize-autoloader --no-interaction ; fi
+  - composer install --optimize-autoloader --no-interaction
   - config/Shared/ci/travis/install_elasticsearch.sh
   - config/Shared/ci/travis/install_mailcatcher.sh
 
