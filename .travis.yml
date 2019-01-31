@@ -58,7 +58,7 @@ before_install:
 
 install:
   - chmod -R a+x config/Shared/ci/travis/
-  - if [[ $COMPOSER == 'prefer-lowest' ]] ; then composer install --optimize-autoloader --no-interaction --prefer-lowest; fi
+  - if [[ $COMPOSER == 'prefer-lowest' ]] ; then composer update --optimize-autoloader --no-interaction --prefer-lowest; fi
   - if [[ $COMPOSER != 'prefer-lowest' ]] ; then composer install --optimize-autoloader --no-interaction; fi
   - config/Shared/ci/travis/install_elasticsearch.sh
   - config/Shared/ci/travis/install_mailcatcher.sh
