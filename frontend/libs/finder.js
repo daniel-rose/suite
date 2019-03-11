@@ -1,6 +1,5 @@
 const path = require('path');
 const glob = require('fast-glob');
-const appSettings = require('../settings');
 
 // define the default glob settings for fast-glob
 const defaultGlobSettings = {
@@ -37,7 +36,7 @@ async function find(globDirs, globPatterns, globSettings = {}) {
 }
 
 // find components according to `appSettings.find.componentEntryPoints`
-async function findComponentEntryPoints() {
+async function findComponentEntryPoints(appSettings) {
     const settings = appSettings.find.componentEntryPoints;
     const files = await find(settings.dirs, settings.patterns, settings.globSettings);
 
@@ -54,7 +53,7 @@ async function findComponentEntryPoints() {
 }
 
 // find styles according to `appSettings.find.componentStyles`
-async function findComponentStyles() {
+async function findComponentStyles(appSettings) {
     const settings = appSettings.find.componentStyles;
     const styles = await find(settings.dirs, settings.patterns, settings.globSettings);
 
