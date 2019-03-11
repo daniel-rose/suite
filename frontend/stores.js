@@ -1,7 +1,11 @@
 const stores = [
     {
         name: 'DE',
-        theme: 'custom-de'
+        theme: 'a-blue-theme'
+    },
+    {
+        name: 'US',
+        theme: 'a-red-theme'
     }
 ];
 

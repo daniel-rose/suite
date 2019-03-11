@@ -17,7 +17,7 @@ class ShopUiTwigExtension extends SprykerShopUiTwigExtension
      */
     protected function getPublicFolderPath(): string
     {
-        // return '/assets/' . $this->themeName . '/';
-        return '/assets/default/';
+        // I need store name and theme name
+        return '/assets/US/a-red-theme/';
     }
 }

@@ -9,6 +9,7 @@ use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
 use Spryker\Shared\Session\SessionConstants;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
+use Spryker\Shared\Twig\TwigConstants;
 
 $domain = getenv('VM_PROJECT') ?: 'suite-nonsplit';
 
@@ -96,3 +97,5 @@ $config[RabbitMqEnv::RABBITMQ_CONNECTIONS] = [
         RabbitMqEnv::RABBITMQ_DEFAULT_CONNECTION => true,
     ],
 ];
+
+$config[TwigConstants::YVES_THEME] = 'a-red-theme';

@@ -109,4 +109,4 @@ $config[QueueConstants::QUEUE_ADAPTER_CONFIGURATION_DEFAULT] = [
 
 $config[QueueConstants::QUEUE_ADAPTER_CONFIGURATION][EventConstants::EVENT_QUEUE][QueueConfig::CONFIG_MAX_WORKER_NUMBER] = 5;
 
-$config[TwigConstants::YVES_THEME] = 'custom-de';
+$config[TwigConstants::YVES_THEME] = 'a-blue-theme';

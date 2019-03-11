@@ -3,12 +3,12 @@ const { join } = require('path');
 // define the current context (root)
 const context = process.cwd();
 
+// define the default theme
+const defaultTheme = 'default';
+
 function getAppSettings(store) {
     // define the applicatin name
-    const name = `yves_${store.name}`;
-
-    // define the default theme
-    const defaultTheme = 'default';
+    const name = `yves_${store.name}_${store.theme}`;
 
     // define the search pattern for glob
     const themePattern = `(${defaultTheme}|${store.theme})`;
@@ -19,10 +19,10 @@ function getAppSettings(store) {
         tsConfig: './tsconfig.json',
 
         // assets folder
-        assets: join('./frontend/assets', store.theme),
+        assets: join('./frontend/assets', store.name, store.theme),
 
         // public folder
-        public: join('./public/Yves/assets', store.theme),
+        public: join('./public/Yves/assets', store.name, store.theme),
 
         // core folders
         core: {
@@ -52,13 +52,13 @@ function getAppSettings(store) {
     // define relative urls to site host (/)
     const urls = {
         // assets base url
-        assets: join('/assets', store.theme)
+        assets: join('/assets', store.name, store.theme)
     };
 
     // return settings
     return {
         name,
-        theme: store.theme,
+        store,
         context,
         paths,
         urls,
