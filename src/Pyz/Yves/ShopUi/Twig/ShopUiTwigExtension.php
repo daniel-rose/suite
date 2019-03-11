@@ -10,9 +10,6 @@ namespace Pyz\Yves\ShopUi\Twig;
 use SprykerShop\Yves\ShopUi\Twig\ShopUiTwigExtension as SprykerShopUiTwigExtension;
 use Spryker\Shared\Twig\TwigConstants;
 
-/**
- * @method \Spryker\Zed\Twig\TwigConfig getConfig()
- */
 class ShopUiTwigExtension extends SprykerShopUiTwigExtension
 {
     /**
@@ -20,6 +17,7 @@ class ShopUiTwigExtension extends SprykerShopUiTwigExtension
      */
     protected function getPublicFolderPath(): string
     {
-        return '/assets/custom-de/'; // $this->getConfig()->getThemeName()
+        // return '/assets/' . $this->themeName . '/';
+        return '/assets/default/';
     }
 }
