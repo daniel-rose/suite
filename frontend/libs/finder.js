@@ -35,9 +35,8 @@ async function find(globDirs, globPatterns, globSettings = {}) {
     }, Promise.resolve([]));
 }
 
-// find components according to `appSettings.find.componentEntryPoints`
-async function findComponentEntryPoints(appSettings) {
-    const settings = appSettings.find.componentEntryPoints;
+// find components entry points
+async function findEntryPoints(settings, description = '') {
     const files = await find(settings.dirs, settings.patterns, settings.globSettings);
 
     const entryPoints = Object.values(files.reduce((map, file) => {
@@ -48,20 +47,19 @@ async function findComponentEntryPoints(appSettings) {
         return map;
     }, {}));
 
-    console.log(`Component entry points: ${entryPoints.length} found`);
+    console.log(`${description} entry points: ${entryPoints.length}`);
     return entryPoints;
 }
 
-// find styles according to `appSettings.find.componentStyles`
-async function findComponentStyles(appSettings) {
-    const settings = appSettings.find.componentStyles;
+// find component styles
+async function findStyles(settings, description = '') {
     const styles = await find(settings.dirs, settings.patterns, settings.globSettings);
 
-    console.log(`Component styles: ${styles.length} found`);
+    console.log(`${description} styles: ${styles.length}`);
     return styles;
 }
 
 module.exports = {
-    findComponentEntryPoints,
-    findComponentStyles
+    findEntryPoints,
+    findStyles
 }

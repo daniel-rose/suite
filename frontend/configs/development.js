@@ -4,13 +4,27 @@ const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { findComponentEntryPoints, findComponentStyles } = require('../libs/finder');
+const { findEntryPoints, findStyles } = require('../libs/finder');
 const { getAliasFromTsConfig } = require('../libs/alias');
 
 async function getConfiguration(appSettings) {
-    const entriesPromise = findComponentEntryPoints(appSettings);
-    const stylesPromise = findComponentStyles(appSettings);
-    const [entries, styles] = await Promise.all([entriesPromise, stylesPromise]);
+    const defaultEntryPointsPromise = findEntryPoints(appSettings.find.componentDefaultEntryPoints, 'Default components');
+    const defaltStylesPromise = findStyles(appSettings.find.componentDefaultStyles, 'Default');
+    const storeEntryPointsPromise = appSettings.store.isDefault
+        ? []
+        : findEntryPoints(appSettings.find.componentStoreEntryPoints, 'Store components');
+
+    const [defaultEntryPoints, defaltStyles, storeEntryPoints] = await Promise.all([
+        defaultEntryPointsPromise,
+        defaltStylesPromise,
+        storeEntryPointsPromise
+    ]);
+
+    const entryPoints = [
+        ...defaultEntryPoints,
+        ...storeEntryPoints
+    ];
+
     const alias = getAliasFromTsConfig(appSettings);
 
     return {
@@ -28,12 +42,12 @@ async function getConfiguration(appSettings) {
         },
 
         entry: {
-            'vendor': join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './vendor.ts'),
+            'vendor': join(appSettings.context, appSettings.paths.project.shopUiModule, './vendor.ts'),
             'app': [
-                join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './app.ts'),
-                join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './styles/basic.scss'),
-                ...entries,
-                join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './styles/util.scss')
+                join(appSettings.context, appSettings.paths.project.shopUiModule, './app.ts'),
+                join(appSettings.context, appSettings.paths.project.shopUiModule, './styles/basic.scss'),
+                ...entryPoints,
+                join(appSettings.context, appSettings.paths.project.shopUiModule, './styles/util.scss')
             ]
         },
 
@@ -87,8 +101,8 @@ async function getConfiguration(appSettings) {
                             loader: 'sass-resources-loader',
                             options: {
                                 resources: [
-                                    join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './styles/shared.scss'),
-                                    ...styles
+                                    join(appSettings.context, appSettings.paths.project.shopUiModule, './styles/shared.scss'),
+                                    ...defaltStyles
                                 ]
                             }
                         }

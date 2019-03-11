@@ -1,19 +1,21 @@
+// get store manager
+const { getStoresByIds } = require('./libs/store-manager');
+// get the settings manager
+const { getAppSettingsByStore } = require('./settings');
 // get the webpack compiler
 const compiler = require('./libs/compiler');
-const { getStoresByNames } = require('./stores');
-const { getAppSettings } = require('./settings');
 
 // get the mode arg from
-// `npm run mode [storeName1 storeName2... storeNameN]`
+// `npm run yves [storeId1 storeId2... storeIdN]`
 // defined in package.json as script
-const [mode, ...storeNames] = process.argv.slice(2);
+const [mode, ...storeIds] = process.argv.slice(2);
 
 // get the webpack configuration associated with the provided mode
 const getConfiguration = require(`./configs/${mode}`);
 
 // get the promise for each store webpack configuration
-const configurationPromises = getStoresByNames(storeNames)
-    .map(getAppSettings)
+const configurationPromises = getStoresByIds(storeIds)
+    .map(getAppSettingsByStore)
     .map(getConfiguration);
 
 // build the project
