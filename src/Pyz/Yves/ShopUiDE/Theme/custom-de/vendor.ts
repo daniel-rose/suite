@@ -1,1 +1,1 @@
-import '../../../ShopUi/Theme/default/vendor';
+import 'Default/vendor';

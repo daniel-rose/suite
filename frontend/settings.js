@@ -42,16 +42,10 @@ function getAppSettings(store) {
         project: {
             // all modules
             modules: './src/Pyz/Yves',
-            // ShopUi source folder
-            shopUiModule: `./src/Pyz/Yves/ShopUi/Theme/${defaultTheme}`
-        },
-
-        // project folders
-        projectTarget: {
-            // all modules
-            modules: './src/Pyz/Yves',
-            // ShopUi source folder
-            shopUiModule: `./src/Pyz/Yves/ShopUi${store.name}/Theme/${store.theme}`
+            // base ShopUi source folder
+            shopUiModule: `./src/Pyz/Yves/ShopUi/Theme/${defaultTheme}`,
+            // store ShopUi source folder
+            shopUiStoreModule: `./src/Pyz/Yves/ShopUi${store.name}/Theme/${store.theme}`
         }
     };
 
@@ -101,7 +95,8 @@ function getAppSettings(store) {
             componentStyles: {
                 // absolute dirs in which look for
                 dirs: [
-                    join(context, paths.core.modules)
+                    join(context, paths.core.modules),
+                    join(context, paths.project.modules)
                 ],
                 // files/dirs patterns
                 patterns: [

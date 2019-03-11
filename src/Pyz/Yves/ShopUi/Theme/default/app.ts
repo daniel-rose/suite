@@ -1,2 +1,2 @@
 import { bootstrap } from 'ShopUi/app';
-export const sharedBootstrap = () => bootstrap();
+export const baseBootstrap = () => bootstrap();

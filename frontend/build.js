@@ -1,17 +1,15 @@
 // get the webpack compiler
 const compiler = require('./libs/compiler');
-const { getStore, getAllStores } = require('./stores');
+const { getStoresByNames } = require('./stores');
+const { getAppSettings } = require('./settings');
 
 // get the mode arg from `npm run xxx` script defined in package.json
-const [mode, storeId] = process.argv.slice(2);
-const stores = !!storeId ? [getStore(storeId)] : getAllStores();
-
-const { getAppSettings } = require('./settings');
+const [mode, ...storeNames] = process.argv.slice(2);
 
 // get the webpack configuration associated with the provided mode
 const getConfiguration = require(`./configs/${mode}`);
 
-const configurationPromises = stores
+const configurationPromises = getStoresByNames(storeNames)
     .map(store => getAppSettings(store))
     .map(appSettings => getConfiguration(appSettings))
 

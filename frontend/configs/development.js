@@ -1,4 +1,4 @@
-const path = require('path');
+const { join } = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -28,18 +28,17 @@ async function getConfiguration(appSettings) {
         },
 
         entry: {
-            // 'es6-polyfill': path.join(appSettings.context, appSettings.paths.project.shopUiModule, './es6-polyfill.ts'),
-            'vendor': path.join(appSettings.context, appSettings.paths.projectTarget.shopUiModule, './vendor.ts'),
+            'vendor': join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './vendor.ts'),
             'app': [
-                path.join(appSettings.context, appSettings.paths.projectTarget.shopUiModule, './app.ts'),
-                path.join(appSettings.context, appSettings.paths.projectTarget.shopUiModule, './styles/basic.scss'),
+                join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './app.ts'),
+                join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './styles/basic.scss'),
                 ...entries,
-                path.join(appSettings.context, appSettings.paths.projectTarget.shopUiModule, './styles/util.scss')
+                join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './styles/util.scss')
             ]
         },
 
         output: {
-            path: path.join(appSettings.context, appSettings.paths.public),
+            path: join(appSettings.context, appSettings.paths.public),
             publicPath: `${appSettings.urls.assets}/`,
             filename: `./js/[name].js`,
             jsonpFunction: `webpackJsonp_${appSettings.name.replace(/(-|\W)+/gi, '_')}`
@@ -57,7 +56,7 @@ async function getConfiguration(appSettings) {
                     loader: 'ts-loader',
                     options: {
                         context: appSettings.context,
-                        configFile: path.join(appSettings.context, appSettings.paths.tsConfig),
+                        configFile: join(appSettings.context, appSettings.paths.tsConfig),
                         compilerOptions: {
                             baseUrl: appSettings.context,
                             outDir: appSettings.paths.public
@@ -88,7 +87,7 @@ async function getConfiguration(appSettings) {
                             loader: 'sass-resources-loader',
                             options: {
                                 resources: [
-                                    path.join(appSettings.context, appSettings.paths.project.shopUiModule, './styles/shared.scss'),
+                                    join(appSettings.context, appSettings.paths.project.shopUiStoreModule, './styles/shared.scss'),
                                     ...styles
                                 ]
                             }
@@ -123,7 +122,7 @@ async function getConfiguration(appSettings) {
                 'images',
                 'fonts'
             ], {
-                root: path.join(appSettings.context, appSettings.paths.public),
+                root: join(appSettings.context, appSettings.paths.public),
                 verbose: true,
                 beforeEmit: true
             }),

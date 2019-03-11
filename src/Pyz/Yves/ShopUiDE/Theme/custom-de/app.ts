@@ -1,2 +1,2 @@
-import { sharedBootstrap } from 'Shared/app';
-sharedBootstrap();
+import { baseBootstrap } from 'Default/app';
+baseBootstrap();

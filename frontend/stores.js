@@ -1,39 +1,50 @@
-const stores = new Map();
+const stores = [
+    {
+        name: 'DE',
+        theme: 'custom-de'
+    }
+];
 
-stores.set('default', {
-    name: '',
-    theme: 'default'
-});
+function get(name) {
+    return stores.find(store => store.name === name);
+}
 
-stores.set('DE', {
-    name: 'DE',
-    theme: 'custom-de'
-})
+function exists(name) {
+    return !!get(name);
+}
 
-function getStore(key) {
-    if (stores.has(key)) {
-        console.log(`Store "${key}" loaded.`);
-        return printStoreInfo(stores.get(key));
+function printWrongStoreNameMessage(name) {
+    console.warn(`Store "${name}" does not exist.`);
+}
+
+function printStoreInfoMessage(name, store) {
+    console.log(`Store "${store.name}" with theme "${store.theme}".`);
+}
+
+function getStoresByNames(names) {
+    if (names.length === 0) {
+        console.error('Provide the name of the target store or "all" to build the whole frontend.');
+        return [];
     }
 
-    console.warn(`Store "${key}" does not exist. Default store loaded instead.`);
-    return printStoreInfo(stores.get('default'));
-}
+    if (names.length === 1 && names[0] === 'all') {
+        console.error('Full frontend build (all stores).');
+        return stores;
+    }
 
-function getAllStores() {
-    console.log(`All stores loaded.`);
-    return Array
-        .from(stores.values())
-        .map(printStoreInfo);
-}
+    names
+        .filter(name => !exists(name))
+        .forEach(printWrongStoreNameMessage);
 
-function printStoreInfo(store) {
-    console.log('- name:', store.name);
-    console.log('- theme:', store.theme);
-    return store;
+    return names
+        .filter(name => exists(name))
+        .map(name => {
+            const store = get(name);
+            printStoreInfoMessage(name, store);
+            return store;
+        });
 }
 
 module.exports = {
-    getStore,
-    getAllStores
+    getStoresByNames
 }
