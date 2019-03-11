@@ -5,20 +5,21 @@ const stores = [
     }
 ];
 
-function get(name) {
+function getStoreByName(name) {
     return stores.find(store => store.name === name);
 }
 
 function exists(name) {
-    return !!get(name);
+    return !!getStoreByName(name);
 }
 
 function printWrongStoreNameMessage(name) {
     console.warn(`Store "${name}" does not exist.`);
 }
 
-function printStoreInfoMessage(name, store) {
+function printStoreInfoMessage(store) {
     console.log(`Store "${store.name}" with theme "${store.theme}".`);
+    return store;
 }
 
 function getStoresByNames(names) {
@@ -28,8 +29,9 @@ function getStoresByNames(names) {
     }
 
     if (names.length === 1 && names[0] === 'all') {
-        console.error('Full frontend build (all stores).');
-        return stores;
+        console.log(`Full frontend build (${stores.length} stores).`);
+        console.log(`Functionality in development...`);
+        return []; //stores
     }
 
     names
@@ -37,12 +39,9 @@ function getStoresByNames(names) {
         .forEach(printWrongStoreNameMessage);
 
     return names
-        .filter(name => exists(name))
-        .map(name => {
-            const store = get(name);
-            printStoreInfoMessage(name, store);
-            return store;
-        });
+        .filter(exists)
+        .map(getStoreByName)
+        .map(printStoreInfoMessage);
 }
 
 module.exports = {
