@@ -36,7 +36,7 @@ async function find(globDirs, globPatterns, globSettings = {}) {
 }
 
 // find components entry points
-async function findEntryPoints(settings, description = '') {
+async function findEntryPoints(settings) {
     const files = await find(settings.dirs, settings.patterns, settings.globSettings);
 
     const entryPoints = Object.values(files.reduce((map, file) => {
@@ -47,15 +47,15 @@ async function findEntryPoints(settings, description = '') {
         return map;
     }, {}));
 
-    console.log(`${description} entry points: ${entryPoints.length}`);
+    console.log(`Components entry points: ${entryPoints.length}`);
     return entryPoints;
 }
 
 // find component styles
-async function findStyles(settings, description = '') {
+async function findStyles(settings) {
     const styles = await find(settings.dirs, settings.patterns, settings.globSettings);
 
-    console.log(`${description} styles: ${styles.length}`);
+    console.log(`Components styles: ${styles.length}`);
     return styles;
 }
 

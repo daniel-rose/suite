@@ -31,7 +31,8 @@ function getStoresByIds(ids) {
     if (ids.length === 1 && ids[0] === 'all') {
         console.log(`Full frontend build (${stores.size} stores).`);
         console.log(`Functionality in development...`);
-        return []; //stores
+        return [];
+        // return Array.from(stores.values());
     }
 
     ids

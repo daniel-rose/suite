@@ -16,8 +16,6 @@ function getAppSettingsByStore(store) {
         assets: join('/assets', store.name, store.theme)
     };
 
-    const isDefault = !store.name;
-
     // define project relative paths to context
     const paths = {
         // locate the typescript configuration json file
@@ -52,6 +50,14 @@ function getAppSettingsByStore(store) {
         }
     };
 
+    const storePatterns = store.isDefault ? [] : [
+        `**/*${store.name}/Theme/${store.theme}/components/atoms/*/index.ts`,
+        `**/*${store.name}/Theme/${store.theme}/components/molecules/*/index.ts`,
+        `**/*${store.name}/Theme/${store.theme}/components/organisms/*/index.ts`,
+        `**/*${store.name}/Theme/${store.theme}/templates/*/index.ts`,
+        `**/*${store.name}/Theme/${store.theme}/views/*/index.ts`
+    ];
+
     // return settings
     return {
         name,
@@ -63,7 +69,7 @@ function getAppSettingsByStore(store) {
         // define settings for suite-frontend-builder finder
         find: {
             // webpack entry points (components) finder settings
-            componentDefaultEntryPoints: {
+            componentEntryPoints: {
                 // absolute dirs in which look for
                 dirs: [
                     join(context, paths.core.modules),
@@ -77,28 +83,7 @@ function getAppSettingsByStore(store) {
                     `**/Theme/${defaultTheme}/components/organisms/*/index.ts`,
                     `**/Theme/${defaultTheme}/templates/*/index.ts`,
                     `**/Theme/${defaultTheme}/views/*/index.ts`,
-                    '!config',
-                    '!data',
-                    '!deploy',
-                    '!node_modules',
-                    '!public',
-                    '!test'
-                ]
-            },
-
-            // webpack entry points (components) finder settings
-            componentStoreEntryPoints: {
-                // absolute dirs in which look for
-                dirs: [
-                    join(context, paths.project.modules)
-                ],
-                // files/dirs patterns
-                patterns: [
-                    `**/*${store.name}/Theme/${store.theme}/components/atoms/*/index.ts`,
-                    `**/*${store.name}/Theme/${store.theme}/components/molecules/*/index.ts`,
-                    `**/*${store.name}/Theme/${store.theme}/components/organisms/*/index.ts`,
-                    `**/*${store.name}/Theme/${store.theme}/templates/*/index.ts`,
-                    `**/*${store.name}/Theme/${store.theme}/views/*/index.ts`,
+                    ...storePatterns,
                     '!config',
                     '!data',
                     '!deploy',
@@ -111,11 +96,10 @@ function getAppSettingsByStore(store) {
             // core component styles finder settings
             // important: this part is used in shared scss environment
             // do not change unless necessary
-            componentDefaultStyles: {
+            componentStyles: {
                 // absolute dirs in which look for
                 dirs: [
-                    join(context, paths.core.modules),
-                    join(context, paths.project.modules)
+                    join(context, paths.core.modules)
                 ],
                 // files/dirs patterns
                 patterns: [

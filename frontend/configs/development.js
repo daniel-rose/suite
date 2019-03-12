@@ -8,23 +8,9 @@ const { findEntryPoints, findStyles } = require('../libs/finder');
 const { getAliasFromTsConfig } = require('../libs/alias');
 
 async function getConfiguration(appSettings) {
-    const defaultEntryPointsPromise = findEntryPoints(appSettings.find.componentDefaultEntryPoints, 'Default components');
-    const defaltStylesPromise = findStyles(appSettings.find.componentDefaultStyles, 'Default');
-    const storeEntryPointsPromise = appSettings.store.isDefault
-        ? []
-        : findEntryPoints(appSettings.find.componentStoreEntryPoints, 'Store components');
-
-    const [defaultEntryPoints, defaltStyles, storeEntryPoints] = await Promise.all([
-        defaultEntryPointsPromise,
-        defaltStylesPromise,
-        storeEntryPointsPromise
-    ]);
-
-    const entryPoints = [
-        ...defaultEntryPoints,
-        ...storeEntryPoints
-    ];
-
+    const entryPointsPromise = findEntryPoints(appSettings.find.componentEntryPoints);
+    const stylesPromise = findStyles(appSettings.find.componentStyles);
+    const [entryPoints, styles] = await Promise.all([entryPointsPromise, stylesPromise]);
     const alias = getAliasFromTsConfig(appSettings);
 
     return {
@@ -102,7 +88,7 @@ async function getConfiguration(appSettings) {
                             options: {
                                 resources: [
                                     join(appSettings.context, appSettings.paths.project.shopUiModule, './styles/shared.scss'),
-                                    ...defaltStyles
+                                    ...styles
                                 ]
                             }
                         }
