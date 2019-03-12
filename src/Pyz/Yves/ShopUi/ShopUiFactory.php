@@ -1,15 +1,14 @@
 <?php
 
-/**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
-
 namespace Pyz\Yves\ShopUi;
 
-use SprykerShop\Yves\ShopUi\ShopUiFactory as SprykerShopUiFactory;
+use Pyz\Yves\ShopUi\ShopUiDependencyProvider;
 use Pyz\Yves\ShopUi\Twig\ShopUiTwigExtension;
+use SprykerShop\Yves\ShopUi\ShopUiFactory as SprykerShopUiFactory;
 
+/**
+ * @method \Pyz\Yves\ShopUi\ShopUiConfig getConfig()
+ */
 class ShopUiFactory extends SprykerShopUiFactory
 {
     /**
@@ -17,6 +16,9 @@ class ShopUiFactory extends SprykerShopUiFactory
      */
     public function createShopUiTwigExtension()
     {
-        return new ShopUiTwigExtension();
+        return new ShopUiTwigExtension(
+            $this->getProvidedDependency(ShopUiDependencyProvider::STORE),
+            $this->getConfig()->getThemeName()
+        );
     }
 }

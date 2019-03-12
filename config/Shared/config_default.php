@@ -1,6 +1,7 @@
 <?php
 
 use Monolog\Logger;
+use Pyz\Shared\ShopUi\ShopUiConstants;
 use Spryker\Client\RabbitMq\Model\RabbitMqAdapter;
 use Spryker\Glue\Log\Plugin\GlueLoggerConfigPlugin;
 use Spryker\Service\FlysystemLocalFileSystem\Plugin\Flysystem\LocalFilesystemBuilderPlugin;
@@ -272,6 +273,7 @@ $config[ApplicationConstants::ZED_SSL_EXCLUDED] = ['heartbeat/index'];
 $YVES_THEME = 'default';
 $config[TwigConstants::YVES_THEME] = $YVES_THEME;
 $config[CmsConstants::YVES_THEME] = $YVES_THEME;
+$config[ShopUiConstants::YVES_THEME] = $YVES_THEME;
 
 // ---------- Error handling
 $config[ErrorHandlerConstants::YVES_ERROR_PAGE] = APPLICATION_ROOT_DIR . '/public/Yves/errorpage/error.html';

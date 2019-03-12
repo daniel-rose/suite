@@ -1,7 +1,9 @@
 <?php
 
+use Pyz\Shared\ShopUi\ShopUiConstants;
 use Spryker\Client\RabbitMq\Model\RabbitMqAdapter;
 use Spryker\Shared\Application\ApplicationConstants;
+use Spryker\Shared\Cms\CmsConstants;
 use Spryker\Shared\Customer\CustomerConstants;
 use Spryker\Shared\Event\EventConstants;
 use Spryker\Shared\GlueApplication\GlueApplicationConstants;
@@ -11,8 +13,8 @@ use Spryker\Shared\Queue\QueueConfig;
 use Spryker\Shared\Queue\QueueConstants;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
 use Spryker\Shared\Session\SessionConstants;
-use Spryker\Shared\ZedRequest\ZedRequestConstants;
 use Spryker\Shared\Twig\TwigConstants;
+use Spryker\Shared\ZedRequest\ZedRequestConstants;
 
 $domain = getenv('VM_PROJECT') ?: 'suite';
 
@@ -109,4 +111,8 @@ $config[QueueConstants::QUEUE_ADAPTER_CONFIGURATION_DEFAULT] = [
 
 $config[QueueConstants::QUEUE_ADAPTER_CONFIGURATION][EventConstants::EVENT_QUEUE][QueueConfig::CONFIG_MAX_WORKER_NUMBER] = 5;
 
-$config[TwigConstants::YVES_THEME] = 'a-blue-theme';
+// ---------- Theme
+$YVES_THEME = 'a-blue-theme';
+$config[TwigConstants::YVES_THEME] = $YVES_THEME;
+$config[CmsConstants::YVES_THEME] = $YVES_THEME;
+$config[ShopUiConstants::YVES_THEME] = $YVES_THEME;

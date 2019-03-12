@@ -1,17 +1,19 @@
 <?php
 
+use Pyz\Shared\ShopUi\ShopUiConstants;
 use Spryker\Shared\Application\ApplicationConstants;
+use Spryker\Shared\Cms\CmsConstants;
 use Spryker\Shared\Customer\CustomerConstants;
 use Spryker\Shared\Event\EventConstants;
 use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
+use Spryker\Shared\Twig\TwigConstants;
 use Spryker\Shared\Session\SessionConstants;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
-use Spryker\Shared\Twig\TwigConstants;
 
-$domain = getenv('VM_PROJECT') ?: 'suite-nonsplit';
+$domain = getenv('VM_PROJECT') ?: 'suite';
 
 // ---------- Yves host
 $config[ApplicationConstants::HOST_YVES] = sprintf('www.us.%s.local', $domain);
@@ -98,4 +100,8 @@ $config[RabbitMqEnv::RABBITMQ_CONNECTIONS] = [
     ],
 ];
 
-$config[TwigConstants::YVES_THEME] = 'a-red-theme';
+// ---------- Theme
+$YVES_THEME = 'a-red-theme';
+$config[TwigConstants::YVES_THEME] = $YVES_THEME;
+$config[CmsConstants::YVES_THEME] = $YVES_THEME;
+$config[ShopUiConstants::YVES_THEME] = $YVES_THEME;

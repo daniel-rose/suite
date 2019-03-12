@@ -7,17 +7,32 @@
 
 namespace Pyz\Yves\ShopUi\Twig;
 
+use Spryker\Shared\Kernel\Store;
 use SprykerShop\Yves\ShopUi\Twig\ShopUiTwigExtension as SprykerShopUiTwigExtension;
-use Spryker\Shared\Twig\TwigConstants;
 
 class ShopUiTwigExtension extends SprykerShopUiTwigExtension
 {
+    /**
+     * @var Store
+     */
+    protected $store;
+
+    /**
+     * @var string
+     */
+    protected $themeName;
+
+    public function __construct(Store $store, string $themeName)
+    {
+        $this->store = $store;
+        $this->themeName = $themeName;
+    }
+
     /**
      * @return string
      */
     protected function getPublicFolderPath(): string
     {
-        // I need store name and theme name
-        return '/assets/US/a-red-theme/';
+        return '/assets/' . $this->store->getStoreName() .  '/' . $this->themeName . '/';
     }
 }
