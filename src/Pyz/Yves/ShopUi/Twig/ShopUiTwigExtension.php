@@ -22,10 +22,16 @@ class ShopUiTwigExtension extends SprykerShopUiTwigExtension
      */
     protected $themeName;
 
-    public function __construct(Store $store, string $themeName)
+    /**
+     * @var bool
+     */
+    protected $isDefaultTheme;
+
+    public function __construct(Store $store, string $themeName, bool $isDefaultTheme)
     {
         $this->store = $store;
         $this->themeName = $themeName;
+        $this->isDefaultTheme = $isDefaultTheme;
     }
 
     /**
@@ -33,6 +39,10 @@ class ShopUiTwigExtension extends SprykerShopUiTwigExtension
      */
     protected function getPublicFolderPath(): string
     {
+        if ($this->isDefaultTheme) {
+            return '/assets/' . $this->themeName . '/';
+        }
+
         return '/assets/' . $this->store->getStoreName() .  '/' . $this->themeName . '/';
     }
 }

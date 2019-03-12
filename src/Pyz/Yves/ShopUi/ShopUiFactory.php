@@ -18,7 +18,8 @@ class ShopUiFactory extends SprykerShopUiFactory
     {
         return new ShopUiTwigExtension(
             $this->getProvidedDependency(ShopUiDependencyProvider::STORE),
-            $this->getConfig()->getThemeName()
+            $this->getConfig()->getThemeName(),
+            $this->getConfig()->isDefaultTheme()
         );
     }
 }
