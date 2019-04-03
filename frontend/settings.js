@@ -50,6 +50,14 @@ function getAppSettingsByStore(store) {
         }
     };
 
+    const getSingleThemeStorePatterns = (theme) => [
+        `**/*${store.name}/Theme/${theme}/components/atoms/*/index.ts`,
+        `**/*${store.name}/Theme/${theme}/components/molecules/*/index.ts`,
+        `**/*${store.name}/Theme/${theme}/components/organisms/*/index.ts`,
+        `**/*${store.name}/Theme/${theme}/templates/*/index.ts`,
+        `**/*${store.name}/Theme/${theme}/views/*/index.ts`
+    ]
+
     const getStorePatterns = () => {
         if (store.isDefault) {
             return []
@@ -63,15 +71,11 @@ function getAppSettingsByStore(store) {
             .themesFallbackChain
             .slice(currentThemeIndex)
             .reverse()
-            .map(theme => [
-                `**/*${store.name}/Theme/${theme}/components/atoms/*/index.ts`,
-                `**/*${store.name}/Theme/${theme}/components/molecules/*/index.ts`,
-                `**/*${store.name}/Theme/${theme}/components/organisms/*/index.ts`,
-                `**/*${store.name}/Theme/${theme}/templates/*/index.ts`,
-                `**/*${store.name}/Theme/${theme}/views/*/index.ts`
-            ])
+            .map(theme => getSingleThemeStorePatterns(theme))
             .reduce((patterns, themePatterns) => patterns.concat(themePatterns), []);
     }
+
+
 
     // return settings
     return {

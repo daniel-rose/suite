@@ -108,5 +108,5 @@ $config[ShopUiConstants::YVES_THEME] = $YVES_THEME;
 $config[TwigConstants::YVES_THEME] = $YVES_THEME;
 $config[TwigConstants::YVES_THEME_CHAIN] = [
     'a-red-theme',
-    'a-blue-theme'
+    'a-green-theme'
 ];
