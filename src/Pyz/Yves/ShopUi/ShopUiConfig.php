@@ -16,10 +16,6 @@ class ShopUiConfig extends AbstractBundleConfig
 
     public function isDefaultTheme(): bool
     {
-        if (static::DEFAULT_THEME_NAME === $this->getThemeName()) {
-            return true;
-        }
-
-        return false;
+        return (static::DEFAULT_THEME_NAME === $this->getThemeName());
     }
 }

@@ -7,8 +7,8 @@
 
 namespace Pyz\Yves\Twig;
 
+use Pyz\Shared\Twig\TwigConstants;
 use Spryker\Shared\Kernel\KernelConstants;
-use Spryker\Shared\Twig\TwigConstants;
 use Spryker\Yves\Twig\TwigConfig as SprykerTwigConfig;
 
 class TwigConfig extends SprykerTwigConfig
@@ -22,16 +22,37 @@ class TwigConfig extends SprykerTwigConfig
     {
         $namespaces = $this->get(KernelConstants::PROJECT_NAMESPACES);
         $storeName = $this->getStoreName();
-        $themeName = $this->getThemeName();
+        $currentThemeNamesFallbackChain = $this->getCurrentThemeNamesFallbackChain();
 
         foreach ($namespaces as $namespace) {
-            $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Yves/%s' . $storeName . '/Theme/' . $themeName;
+            foreach ($currentThemeNamesFallbackChain as $themeName) {
+                $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Yves/%s' . $storeName . '/Theme/' . $themeName;
+            }
+
             $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Yves/%s' . $storeName . '/Theme/default';
-            $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Yves/%s/Theme/' . $themeName;
+
+            // ---
+
+            foreach ($currentThemeNamesFallbackChain as $themeName) {
+                $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Yves/%s/Theme/' . $themeName;
+            }
+
             $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Yves/%s/Theme/default';
-            $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Shared/%s' . $storeName . '/Theme/' . $themeName;
+
+            // ---
+
+            foreach ($currentThemeNamesFallbackChain as $themeName) {
+                $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Shared/%s' . $storeName . '/Theme/' . $themeName;
+            }
+
             $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Shared/%s' . $storeName . '/Theme/default';
-            $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Shared/%s/Theme/' . $themeName;
+
+            // ---
+
+            foreach ($currentThemeNamesFallbackChain as $themeName) {
+                $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Shared/%s/Theme/' . $themeName;
+            }
+
             $paths[] = APPLICATION_SOURCE_DIR . '/' . $namespace . '/Shared/%s/Theme/default';
         }
 
@@ -61,5 +82,20 @@ class TwigConfig extends SprykerTwigConfig
         $paths[] = APPLICATION_VENDOR_DIR . '/spryker/*/src/Spryker/Shared/%s/Theme/default';
 
         return $paths;
+    }
+
+    protected function getFullThemeNamesFallbackChain(): array
+    {
+        return $this->get(TwigConstants::YVES_THEME_CHAIN);
+    }
+
+    protected function getCurrentThemeNamesFallbackChain(): array
+    {
+        $fullChain = $this->getFullThemeNamesFallbackChain();
+        $currentThemeName = $this->getThemeName();
+        $currentThemeNameKey = array_search($currentThemeName, $fullChain);
+        $currentChain = array_slice($fullChain, $currentThemeNameKey);
+
+        return $currentChain;
     }
 }

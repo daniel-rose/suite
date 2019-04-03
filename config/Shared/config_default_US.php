@@ -1,6 +1,7 @@
 <?php
 
 use Pyz\Shared\ShopUi\ShopUiConstants;
+use Pyz\Shared\Twig\TwigConstants;
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Cms\CmsConstants;
 use Spryker\Shared\Customer\CustomerConstants;
@@ -9,7 +10,6 @@ use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
-use Spryker\Shared\Twig\TwigConstants;
 use Spryker\Shared\Session\SessionConstants;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
 
@@ -101,7 +101,12 @@ $config[RabbitMqEnv::RABBITMQ_CONNECTIONS] = [
 ];
 
 // ---------- Theme
+
 $YVES_THEME = 'a-red-theme';
-$config[TwigConstants::YVES_THEME] = $YVES_THEME;
 $config[CmsConstants::YVES_THEME] = $YVES_THEME;
 $config[ShopUiConstants::YVES_THEME] = $YVES_THEME;
+$config[TwigConstants::YVES_THEME] = $YVES_THEME;
+$config[TwigConstants::YVES_THEME_CHAIN] = [
+    'a-red-theme',
+    'a-blue-theme'
+];

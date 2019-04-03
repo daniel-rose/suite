@@ -1,5 +1,16 @@
 const stores = require('../stores');
 
+if (stores.has('default')) {
+    console.warn('Your store registry contains a "default".');
+    console.warn('Default store is reserved for the system and cannot be customised.');
+    console.warn('it\'s orginal configuration will be restored.');
+}
+
+stores.set('default', {
+    name: '',
+    themes: ['default']
+});
+
 function printWrongStoreIdMessage(name) {
     console.warn(`Store "${name}" does not exist.`);
 }
@@ -33,6 +44,12 @@ function getStoresByIds(ids) {
         console.log(`Functionality in development...`);
         return [];
         // return Array.from(stores.values());
+    }
+
+    if (ids.length === 1 && ids[0] === 'which') {
+        console.log('Available stores:');
+        Array.from(stores.keys()).map(id => console.log(`- ${id}`));
+        return [];
     }
 
     ids

@@ -50,13 +50,28 @@ function getAppSettingsByStore(store) {
         }
     };
 
-    const storePatterns = store.isDefault ? [] : [
-        `**/*${store.name}/Theme/${store.theme}/components/atoms/*/index.ts`,
-        `**/*${store.name}/Theme/${store.theme}/components/molecules/*/index.ts`,
-        `**/*${store.name}/Theme/${store.theme}/components/organisms/*/index.ts`,
-        `**/*${store.name}/Theme/${store.theme}/templates/*/index.ts`,
-        `**/*${store.name}/Theme/${store.theme}/views/*/index.ts`
-    ];
+    const getStorePatterns = () => {
+        if (store.isDefault) {
+            return []
+        }
+
+        const currentThemeIndex = store
+            .themesFallbackChain
+            .indexOf(store.theme);
+
+        return store
+            .themesFallbackChain
+            .slice(currentThemeIndex)
+            .reverse()
+            .map(theme => [
+                `**/*${store.name}/Theme/${theme}/components/atoms/*/index.ts`,
+                `**/*${store.name}/Theme/${theme}/components/molecules/*/index.ts`,
+                `**/*${store.name}/Theme/${theme}/components/organisms/*/index.ts`,
+                `**/*${store.name}/Theme/${theme}/templates/*/index.ts`,
+                `**/*${store.name}/Theme/${theme}/views/*/index.ts`
+            ])
+            .reduce((patterns, themePatterns) => patterns.concat(themePatterns), []);
+    }
 
     // return settings
     return {
@@ -83,7 +98,7 @@ function getAppSettingsByStore(store) {
                     `**/Theme/${defaultTheme}/components/organisms/*/index.ts`,
                     `**/Theme/${defaultTheme}/templates/*/index.ts`,
                     `**/Theme/${defaultTheme}/views/*/index.ts`,
-                    ...storePatterns,
+                    ...getStorePatterns(),
                     '!config',
                     '!data',
                     '!deploy',
